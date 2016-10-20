@@ -10,18 +10,26 @@ fi
 echo "Waiting for Selenium..."
 sleep 10
 
-# check if Selenium server is listening @ port 4444
-if nc -z localhost 4444; then
-  # run protractor tests
-  mkdir -p target
-  protractor /project/test/protractor-ci.conf.js
+# check if localhost app is serving
+if nc -z localhost 3000; then
+  # check if Selenium server is listening @ port 4444
+  if nc -z localhost 4444; then
+    # run protractor tests
 
-  # shutdown supervisord, and in consequence the whole container
-  supervisorctl shutdown
+    mkdir -p target
+    protractor /project/test/protractor-ci.conf.js
+
+    # shutdown supervisord, and in consequence the whole container
+    supervisorctl shutdown
+  else
+    # supervisord will execute this script again after services status changes
+    # usually a single reload is enough to catch up with Selenium server	
+    echo "Selenium server is not available"
+    exit 1
+  fi  
 else
-  # supervisord will execute this script again after services status changes
-  # usually a single reload is enough to catch up with Selenium server	
-  echo "Selenium server is not available"
+  echo "Localhost app is not available"
   exit 1
-fi  
+fi
+
 

@@ -4,12 +4,8 @@ MAINTAINER maxarturo@gmail.com
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV NPM_CONFIG_LOGLEVEL info
-ENV NODE_VERSION 0.12.15
+ENV NODE_VERSION 6.7.0
 ENV PROTRACTOR_VERSION 2
-
-# apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886 && \
-#   echo 'deb http://ppa.launchpad.net/webupd8team/java/ubuntu wily main ' >> /etc/apt/sources.list && \
-#   echo 'deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu wily main ' >> /etc/apt/sources.list && \
 
 RUN apt-get update --fix-missing && \
   apt-get install -y \
@@ -52,8 +48,8 @@ RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-
 RUN mkdir -p /project
 WORKDIR /project
 
-# Install Protractor
-RUN npm install -g "protractor@$PROTRACTOR_VERSION"
+# Install Protractor and gulp
+RUN npm install -g "protractor@$PROTRACTOR_VERSION" gulp
 
 # Install Selenium and Chrome driver
 RUN webdriver-manager update
