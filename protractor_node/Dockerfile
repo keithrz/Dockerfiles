@@ -5,7 +5,7 @@ MAINTAINER maxarturo@gmail.com
 ENV DEBIAN_FRONTEND noninteractive
 ENV NPM_CONFIG_LOGLEVEL info
 ENV NODE_VERSION 6.7.0
-ENV PROTRACTOR_VERSION 2
+ENV PROTRACTOR_VERSION 2.5.1
 
 RUN apt-get update --fix-missing && \
   apt-get install -y \
@@ -45,9 +45,6 @@ RUN curl -SLO "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-
   && tar -xJf "node-v$NODE_VERSION-linux-x64.tar.xz" -C /usr/local --strip-components=1 \
   && rm "node-v$NODE_VERSION-linux-x64.tar.xz" SHASUMS256.txt.asc SHASUMS256.txt
 
-RUN mkdir -p /project
-WORKDIR /project
-
 # Install Protractor and gulp
 RUN npm install -g "protractor@$PROTRACTOR_VERSION" gulp
 
@@ -57,6 +54,8 @@ RUN webdriver-manager update
 # Add a non-privileged user for running Protrator
 RUN adduser --home /project --uid 1000 \
   --disabled-login --disabled-password --gecos node node
+
+WORKDIR /project
 
 # Add main configuration file
 ADD supervisord.conf /etc/supervisor/supervisor.conf

@@ -12,11 +12,13 @@ sleep 10
 
 # check if localhost app is serving
 if nc -z localhost 3000; then
+  echo "local web server running."
   # check if Selenium server is listening @ port 4444
   if nc -z localhost 4444; then
+    echo "selenium server running."
     # run protractor tests
 
-    mkdir -p target
+    # mkdir -p target
     protractor /project/test/protractor-ci.conf.js
 
     # shutdown supervisord, and in consequence the whole container
