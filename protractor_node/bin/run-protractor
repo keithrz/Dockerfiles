@@ -16,10 +16,18 @@ if nc -z localhost 3000; then
   # check if Selenium server is listening @ port 4444
   if nc -z localhost 4444; then
     echo "selenium server running."
-    # run protractor tests
 
-    # mkdir -p target
-    protractor /project/test/protractor-ci.conf.js
+    # run protractor tests for the specified environment
+    if [[ "$ENV" == "staging" ]]; then
+      echo "running in staging"
+      protractor /project/test/protractor-ci-staging.conf.js
+    elif [[ "$ENV" == "production" ]]; then
+      echo "running in production"
+      protractor /project/test/protractor-ci-prod.conf.js
+    else
+      echo "running in dev local"
+      protractor /project/test/protractor-ci.conf.js
+    fi
 
     # shutdown supervisord, and in consequence the whole container
     supervisorctl shutdown
