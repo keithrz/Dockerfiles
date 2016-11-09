@@ -24,9 +24,12 @@ if nc -z localhost 3000; then
     elif [[ "$ENV" == "production" ]]; then
       echo "running in production"
       protractor /project/test/protractor-ci-prod.conf.js
-    else
-      echo "running in dev local"
+    elif [[ "$ENV" == "ci" ]]; then
+      echo "running in ci"
       protractor /project/test/protractor-ci.conf.js
+    else
+      echo "running dev local"
+      protractor /project/test/protractor-dev-docker.conf.js
     fi
 
     # shutdown supervisord, and in consequence the whole container
@@ -41,5 +44,4 @@ else
   echo "Localhost app is not available"
   exit 1
 fi
-
 
