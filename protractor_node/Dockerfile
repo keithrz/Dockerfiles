@@ -5,7 +5,7 @@ MAINTAINER maxarturo@gmail.com
 ENV DEBIAN_FRONTEND noninteractive
 ENV NPM_CONFIG_LOGLEVEL info
 ENV NODE_VERSION 6.7.0
-ENV PROTRACTOR_VERSION 2.5.1
+ENV PROTRACTOR_VERSION 4.0.10
 
 RUN apt-get update --fix-missing && \
   apt-get install -y \
